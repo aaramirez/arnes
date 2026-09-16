@@ -1,6 +1,6 @@
 ---
 name: numbered-plans
-description: Turns an approved design/spec into a single written implementation plan saved as a sequentially numbered file in the current project's planes/ directory (planes/0001-<slug>.md, planes/0002-<slug>.md, ...), instead of the default docs/superpowers/specs location. Use this whenever the user asks to "write the plan", "generate a plan", "save this as a numbered plan", refers to a project's planes/ folder for review, or asks to create/use a "planning skill". Typically invoked right after a brainstorming/design discussion has been approved, as the hand-off step before (or instead of) superpowers:writing-plans's default output location. The plan is written for human review and approval — this skill never starts implementation itself.
+description: Turns an approved design/spec into a single written implementation plan saved as a sequentially numbered, dated file in the current project's planes/ directory (planes/0001-<slug>-YYYY-MM-DD.md, planes/0002-<slug>-YYYY-MM-DD.md, ...), instead of the default docs/superpowers/specs location. Use this whenever the user asks to "write the plan", "generate a plan", "save this as a numbered plan", refers to a project's planes/ folder for review, or asks to create/use a "planning skill". Typically invoked right after a brainstorming/design discussion has been approved, as the hand-off step before (or instead of) superpowers:writing-plans's default output location. The plan is written for human review and approval — this skill never starts implementation itself.
 ---
 
 # Numbered Plans
@@ -28,7 +28,10 @@ signals a project has opted into this convention.
    exist, start at `0001`.
 3. Slugify the plan's title (lowercase, hyphens, no stopwords-obsession —
    just make it readable in a file listing).
-4. Write to `planes/NNNN-<slug>.md`. Never overwrite an existing numbered
+4. Write to `planes/NNNN-<slug>-YYYY-MM-DD.md`, where the date is today's
+   date. Putting the date in the filename (in addition to the `date:`
+   frontmatter field) makes the plan's age visible directly in a file
+   listing, without opening the file. Never overwrite an existing numbered
    file — if asked to revise a plan, either edit that same file in place
    (preferred, while it's still under review) or create a new number and
    note in it which plan it supersedes.
@@ -61,6 +64,12 @@ The pieces being built or changed and how they relate. Use a table or a
 short list of components with one line each when there are several; prose
 when there's really just one thing.
 
+## Critical files
+The specific files whoever implements this needs to read or touch, with a
+one-line note on why each matters (existing pattern to follow, file to
+modify, file that will break if ignored). Skip this section if it would
+just repeat the Architecture/Components list verbatim.
+
 ## Data flow
 How information moves between the components, if that's non-obvious.
 Skip this section if there's nothing to say beyond "it's a function call."
@@ -83,9 +92,11 @@ hunting, just the failure modes that would otherwise surprise whoever
 implements this.
 
 ## Testing / validation
-How whoever implements this will know it works. Manual steps are fine for
-small projects; say so plainly rather than inventing a test suite the
-project doesn't have.
+How whoever implements this will know it works, as a checklist:
+- [ ] Concrete, checkable item (a test suite passing, a manual repro step,
+      a specific command's output). Manual steps are fine for small
+      projects; say so plainly rather than inventing a test suite the
+      project doesn't have.
 
 ## Out of scope
 What was explicitly discussed and deliberately excluded, so it doesn't
@@ -101,7 +112,15 @@ Empty is fine — don't invent questions to fill this section.
 Tell the human the file path and stop. Do not start implementing, do not
 run `writing-plans`'s own file-writing step afterward, and do not create
 any code, subagents, or skills the plan describes — that only happens if
-and when the human comes back and asks for it, plan in hand.
+and when the human comes back and asks for it, plan in hand. Do not edit,
+create, or run anything outside `planes/` while executing this skill —
+writing the plan file is the entire scope of the turn.
+
+If the project is a git repo, ask the human whether they want the new
+plan file committed (and pushed, if they have a remote workflow for it).
+This is only about the plan document itself — it is a separate question
+from committing the eventual implementation, which happens later and is
+out of scope here.
 
 ## Relationship to superpowers:writing-plans
 
