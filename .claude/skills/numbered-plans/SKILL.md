@@ -1,6 +1,6 @@
 ---
 name: numbered-plans
-description: Turns an approved design/spec into a single written implementation plan saved as a sequentially numbered file in the current project's plans/ directory (plans/0001-<slug>.md, plans/0002-<slug>.md, ...), instead of the default docs/superpowers/specs location. Use this whenever the user asks to "write the plan", "generate a plan", "save this as a numbered plan", refers to a project's plans/ folder for review, or asks to create/use a "planning skill". Typically invoked right after a brainstorming/design discussion has been approved, as the hand-off step before (or instead of) superpowers:writing-plans's default output location. The plan is written for human review and approval — this skill never starts implementation itself.
+description: Turns an approved design/spec into a single written implementation plan saved as a sequentially numbered file in the current project's planes/ directory (planes/0001-<slug>.md, planes/0002-<slug>.md, ...), instead of the default docs/superpowers/specs location. Use this whenever the user asks to "write the plan", "generate a plan", "save this as a numbered plan", refers to a project's planes/ folder for review, or asks to create/use a "planning skill". Typically invoked right after a brainstorming/design discussion has been approved, as the hand-off step before (or instead of) superpowers:writing-plans's default output location. The plan is written for human review and approval — this skill never starts implementation itself.
 ---
 
 # Numbered Plans
@@ -15,20 +15,20 @@ anything from it; that is a separate, later step the human explicitly starts.
 Use this after a design has been through the normal brainstorming/design
 process (see superpowers:brainstorming) and the human has approved it in
 chat. This skill replaces where that approved work gets written down: one
-combined spec+plan file in `<project-root>/plans/`, instead of a spec in
+combined spec+plan file in `<project-root>/planes/`, instead of a spec in
 `docs/superpowers/specs/` plus a separately-located plan.
 
-If there's no `plans/` directory yet, create it — its presence is what
+If there's no `planes/` directory yet, create it — its presence is what
 signals a project has opted into this convention.
 
 ## Numbering
 
-1. List `plans/*.md` in the project root.
+1. List `planes/*.md` in the project root.
 2. Find the highest existing `NNNN` prefix (4 digits, zero-padded). If none
    exist, start at `0001`.
 3. Slugify the plan's title (lowercase, hyphens, no stopwords-obsession —
    just make it readable in a file listing).
-4. Write to `plans/NNNN-<slug>.md`. Never overwrite an existing numbered
+4. Write to `planes/NNNN-<slug>.md`. Never overwrite an existing numbered
    file — if asked to revise a plan, either edit that same file in place
    (preferred, while it's still under review) or create a new number and
    note in it which plan it supersedes.
@@ -108,7 +108,7 @@ and when the human comes back and asks for it, plan in hand.
 This skill doesn't replace the *thinking* in writing-plans — step
 granularity, sequencing, and verification framing there are still good
 judgment to borrow. It replaces the *filing convention*: one number, one
-file, in `plans/`, combining what writing-plans would otherwise split into
-a spec doc plus a separate plan doc. If a project has no `plans/`
+file, in `planes/`, combining what writing-plans would otherwise split into
+a spec doc plus a separate plan doc. If a project has no `planes/`
 directory and no signal the human wants this convention, prefer
 writing-plans's default behavior instead.
