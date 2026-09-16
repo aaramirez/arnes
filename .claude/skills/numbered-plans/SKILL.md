@@ -1,6 +1,6 @@
 ---
 name: numbered-plans
-description: Turns an approved design/spec into a single written implementation plan saved as a sequentially numbered, dated file in the current project's planes/ directory (planes/0001-<slug>-YYYY-MM-DD.md, planes/0002-<slug>-YYYY-MM-DD.md, ...), instead of the default docs/superpowers/specs location. Use this whenever the user asks to "write the plan", "generate a plan", "save this as a numbered plan", refers to a project's planes/ folder for review, or asks to create/use a "planning skill". Typically invoked right after a brainstorming/design discussion has been approved, as the hand-off step before (or instead of) superpowers:writing-plans's default output location. The plan is written for human review and approval — this skill never starts implementation itself.
+description: Turns an approved design/spec into a single written implementation plan saved as a sequentially numbered, dated file in the current project's planes/ directory (planes/0001-<slug>-YYYY-MM-DD.md, planes/0002-<slug>-YYYY-MM-DD.md, ...), instead of the default docs/superpowers/specs location. Every plan that changes architecture, components, or workflow also refreshes its diagram via the archify skill and cross-links the affected docs, so the docs/diagrams never drift from what was planned. Use this whenever the user asks to "write the plan", "generate a plan", "save this as a numbered plan", refers to a project's planes/ folder for review, or asks to create/use a "planning skill". Typically invoked right after a brainstorming/design discussion has been approved, as the hand-off step before (or instead of) superpowers:writing-plans's default output location. The plan is written for human review and approval — this skill never starts implementation itself.
 ---
 
 # Numbered Plans
@@ -70,6 +70,11 @@ one-line note on why each matters (existing pattern to follow, file to
 modify, file that will break if ignored). Skip this section if it would
 just repeat the Architecture/Components list verbatim.
 
+## Diagrams
+Link to the diagram(s) generated for this plan (see "Diagrams and docs"
+below) with a one-line caption each. Omit this section entirely for plans
+with no structural or workflow change.
+
 ## Data flow
 How information moves between the components, if that's non-obvious.
 Skip this section if there's nothing to say beyond "it's a function call."
@@ -107,14 +112,38 @@ Anything left for the human to decide before or during implementation.
 Empty is fine — don't invent questions to fill this section.
 ```
 
+## Diagrams and docs
+
+If the plan changes architecture, components, data flow, or a multi-step
+workflow, refresh its diagram before telling the human you're done:
+
+1. Invoke the `archify` skill to generate or update the diagram that best
+   fits the change (architecture, workflow, sequence, data-flow, or
+   lifecycle — pick the one the plan's own section headings already
+   suggest). Save the output to `docs/diagrams/<same-slug-as-the-plan>.<type>.html`,
+   creating `docs/diagrams/` if it doesn't exist yet.
+2. Link that file from the plan's own `## Diagrams` section.
+3. If an existing doc (README, docs/, etc.) describes the area this plan
+   changes, add or update a short pointer there back to the plan number
+   and the diagram — don't rewrite the doc's content speculatively, just
+   keep the cross-reference current.
+
+Skip this entirely, and say so explicitly rather than silently omitting
+it, when the plan is a pure content/copy change with nothing structural
+to diagram. This does not apply to `graphify`: that's a whole-repo
+knowledge graph, rebuilt on its own schedule (see the project's
+`graphify` skill/hook), not something to regenerate per plan.
+
 ## After writing the file
 
-Tell the human the file path and stop. Do not start implementing, do not
-run `writing-plans`'s own file-writing step afterward, and do not create
-any code, subagents, or skills the plan describes — that only happens if
-and when the human comes back and asks for it, plan in hand. Do not edit,
-create, or run anything outside `planes/` while executing this skill —
-writing the plan file is the entire scope of the turn.
+Tell the human the file path (and the diagram path, if one was generated)
+and stop. Do not start implementing, do not run `writing-plans`'s own
+file-writing step afterward, and do not create any code, subagents, or
+skills the plan describes — that only happens if and when the human comes
+back and asks for it, plan in hand. Beyond the plan file itself and the
+"Diagrams and docs" step above (the diagram file and its doc
+cross-references), do not edit, create, or run anything else while
+executing this skill — that's the entire scope of the turn.
 
 If the project is a git repo, ask the human whether they want the new
 plan file committed (and pushed, if they have a remote workflow for it).
